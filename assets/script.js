@@ -1,5 +1,8 @@
 // Assignment Code
 var generateBtn = document.querySelector("#generate");
+var letters = "qwertyuiopasdfghjklzxcvbnm";
+var numerals = "1234567890"
+var special = "!@#$%^&*()?-=+[];:<>_"
 
 // Write password to the #password input
 function writePassword() {
@@ -10,15 +13,26 @@ function writePassword() {
 }
 
 function generatePassword() {
+  var characterSet = '';
   let lengthReq = lengthPrompt();
+  if(!lengthReq){
+    return;
+  }
+  if(confirm('The password will include lowercase letters.')){
+    characterSet = characterSet + letters;
+  }
+  if(confirm('The password will include uppercase letters.')){
+    characterSet = characterSet + letters.toUpperCase();
+  }
 
-  //ask if lowercase
-
-  //ask if uppercase
-
-  //ask if numeric
-
-  //ask if special
+  if(confirm('The password will include digits.')){
+    characterSet = characterSet + numerals;
+  }
+  
+  if(confirm('The password will include special characters.')){
+    characterSet = characterSet + special;
+  }
+  
 }
 
 function lengthPrompt() {
