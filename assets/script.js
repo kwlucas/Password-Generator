@@ -2,7 +2,7 @@
 var generateBtn = document.querySelector("#generate");
 var letters = "qwertyuiopasdfghjklzxcvbnm";
 var numerals = "1234567890"
-var special = "!@#$%^&*()?-=+[];:<>_"
+var special = "!@#\$%\^\&*\)\(+=._-"
 
 // Write password to the #password input
 function writePassword() {
@@ -13,40 +13,70 @@ function writePassword() {
 }
 
 function generatePassword() {
+  var characterGroups = [];
   var characterSet = '';
+  var pass = '';
   let lengthReq = lengthPrompt();
-  if(!lengthReq){
+  if (!lengthReq) {
     return;
   }
-  if(confirm('The password will include lowercase letters.')){
-    characterSet = characterSet + letters;
+  if (confirm('The password will include lowercase letters.')) {
+    characterGroups.push(letters);
   }
-  if(confirm('The password will include uppercase letters.')){
-    characterSet = characterSet + letters.toUpperCase();
+  if (confirm('The password will include uppercase letters.')) {
+    characterGroups.push(letters.toUpperCase());
   }
 
-  if(confirm('The password will include digits.')){
-    characterSet = characterSet + numerals;
+  if (confirm('The password will include digits.')) {
+    characterGroups.push(numerals);
   }
-  
-  if(confirm('The password will include special characters.')){
-    characterSet = characterSet + special;
+
+  if (confirm('The password will include special characters.')) {
+    characterGroups.push(special);
   }
-  
+
+  if (characterGroups.length == 0) {
+    alert('Error!\nNo characters selected for password generation.\nPlease try again.');
+    return;
+  }
+
+  characterSet = characterGroups.join('');
+
+  while (true) {
+    let verified = true;
+    for (i = 0; i <= lengthReq; i++) {
+      pass += characterSet[Math.floor(Math.random() * characterSet.length)];
+    }
+
+    for (i = 0; i <= characterGroups.length; i++) {
+      if (!pass.match(RegExp(`[${characterGroups[i]}]`))) {
+        verified = false;
+        break;
+      }
+    }
+    if (verified) {
+      break;
+    }
+  }
+  return pass;
 }
 
 function lengthPrompt() {
-  let ans = prompt('Enter desired password length. (Number 8-128').trim();
+  let ans = prompt('Enter desired password length.(Number 8-128)');
   if (ans == null) {
     return false;
   }
-  else if (ans.match(/[^0-9]/)) {
+  else {
+    ans = ans.trim();
+  }
+
+  if (ans.match(/[^0-9]/)) {
     alert('Invalid input!\nInput must only contain numbers.');
-    lengthPrompt();
+    return lengthPrompt();
   }
   else if (Number(ans) < 8 || Number(ans) > 128) {
     alert('Invalid input!\nInput must be a number between 8 and 128.');
-    lengthPrompt();
+    return lengthPrompt();
   }
   else {
     return Number(ans);
