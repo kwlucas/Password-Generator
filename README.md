@@ -16,7 +16,7 @@ This web application serves to randomly generate a password that meets selected 
 
 * The password can be set to include special characters. 
 
-* Entering invalid or no criteria will prompt the user to try again
+* Entering invalid or no criteria will prompt the user to try again.
 
 * The generated password meeting all criteria will be displayed on the page.
 
